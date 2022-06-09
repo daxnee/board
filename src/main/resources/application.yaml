@@ -1,0 +1,33 @@
+application:
+   version: 0.0.1 #소프트웨어에도 버전이 있다.
+   title: daxnee
+   
+#MyBatis 설정
+mybatis:
+   mapper-locations: classpath:/sqlmap/sqlmapper_*.xml # *:전체를 다 불러오겠다. 
+   # sqlmapper_*.xml : xml 파일과 이름이 같아야 연결이 된다!! **
+   type-aliases-package: com.dw.board.vo #패키지명을 작성하면 된다
+   
+#MySQL 접속정보 설정
+spring:
+   datasource:
+      initialization-mode: always # 실행 안 시킬거면 : never
+      schema : classpath:init.sql
+      driver-class-name: com.mysql.cj.jdbc.Driver # 이렇게 설정하면 스프링과 sql이 서로 접속할 수 있음
+      url: jdbc:mysql://localhost:3306/dw?useUnicode=true&charaterEncoding=utf-8&serverTimezone=UTC #내 ip 주소
+      username: root # 디비버 -> localhost -> edit connection 
+      password: 1793
+   #JSP 경로 설정 
+   mvc:
+      view:
+         prefix: /WEB-INF/views/
+         suffix: .jsp
+      #css, js, image 폴더 위치 설정
+      static-path-pattern: /resources/static/**
+      
+pagehelper:
+    #helper-dialect: 사용할 데이터베이스
+    herper-dialect: mysql
+       #reasonable : 0페이지 요청이들어오면 자동으로 1페이지로, 13페이지 까지 있는데 14페이지 요청이 들어오면 자동으로 13페이지로 변환.    
+    reasonable : true
+      

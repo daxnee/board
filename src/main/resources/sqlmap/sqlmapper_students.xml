@@ -1,0 +1,95 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dw.board.mapper.StudentsMapper">  <!-- com.dw.board : 패키지 이름 -->
+
+	 <insert id="insertStudents">
+	 	INSERT INTO students
+	 	 (
+	 	 	students_name,
+	 	 	students_password
+	 	 )
+	 	 VALUES
+	 	 (
+	 	 	#{studentsName},
+	 	 	#{studentsPassword}
+	 	 )
+	 </insert>
+	 
+	 <select id="selectAllStudentsList" resultType = "StudentsVO">
+	 	SELECT 
+	 		students_id AS studentsId, <!-- 이렇게 해야 리저트 타입과 맞게 매핑이됨 -->
+	 		students_name AS studentsName,
+	 		students_password AS studentsPassword,
+	 		date_format(create_at, '%Y-%m-%d') AS createAt
+	 	FROM students 
+	 </select>
+	 
+	 <!-- map으로 리턴해보기 (join)-->
+	  <select id="selectAllStudents" resultType = "map">
+	 	<!-- 별칭을 주는 이유: studentsVO의 필드변수명과 같아야만 매핑이 됨 -->
+	 	SELECT 
+	 		students_id AS studentsId, 
+	 		students_name AS studentsName,
+			students_password AS studentsPassword,
+			date_format(create_at, '%Y-%m-%d') AS createAt
+	 	FROM students 
+	 	WHERE students_name LIKE CONCAT('%',#{studentsName},'%')
+	 </select>
+	 
+	 
+	 
+	 
+	   <select id="selectAllStudentsListByMap" resultType = "map">
+	 	<!-- 별칭을 주는 이유: studentsVO의 필드변수명과 같아야만 매핑이 됨 -->
+	 	SELECT 
+	 		students_id AS studentsId, <!-- 별칭을 필드변수와 같게 해줘야 resultType과 맞게 매핑이됨 -->
+	 		students_name AS studentsName,
+			students_password AS studentsPassword,
+			date_format(create_at, '%Y-%m-%d') AS createAt
+	 	FROM students 
+	 </select>
+	 
+	 
+	 
+	 
+	 
+	 <!-- 특정학생 조회 -->
+	 <select id="selectStudents" resultType = "StudentsVO">
+	 	SELECT 
+	 		students_id AS studentsId,
+	 		students_name AS studentsName,
+	 		students_password AS studentsPassword,
+	 		create_at AS createAt
+	 	FROM students 
+	 	WHERE students_id = #{studentsId}
+	 </select>
+	 
+	 <!-- 삭제 -->
+	 <delete id="deleteStudents">
+	 	DELETE FROM 
+			students
+		WHERE 
+			students_id = #{studentsId}
+	 </delete>
+	 
+	  <!-- 수정 -->
+	 <update id="updateStudents">
+	 	UPDATE 
+	 		students
+		SET 
+			students_name = #{studentsName}, <!-- body로 받음 -->
+			students_password = #{studentsPassword} <!-- body로 받음 -->
+		WHERE 
+			students_id = #{studentsId} <!-- service 메소드의 파라미터로 받는다 -->
+	 </update>
+	 
+	 <select id="selectStudentsOne" resultType = "StudentsVO">
+		SELECT 
+	 		students_id AS studentsId,
+	 		students_name AS studentsName,
+	 		students_password AS studentsPassword,
+	 		create_at AS createAt 
+	 	FROM students
+	 	WHERE students_name = #{studentsName}
+	 
+	 </select>
+</mapper>
