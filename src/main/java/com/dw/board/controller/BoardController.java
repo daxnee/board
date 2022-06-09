@@ -11,4 +11,4 @@ public class BoardController {
 		//why? jsp 파일명을 리턴해준다고 생각하면 된다.
 		return "index"; // jsp파일 이름으로 return 해주기
 	}
-}
+}//
