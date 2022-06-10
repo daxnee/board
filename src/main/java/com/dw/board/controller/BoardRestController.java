@@ -85,15 +85,10 @@ public class BoardRestController {
 		@GetMapping("/board/search")
 		public PageInfo<Map<String, Object>> callBoardSearch(@RequestParam("writer") String writer,
 				@RequestParam("pageNum") int pageNum, 
-<<<<<<< Upstream, based on branch 'master' of https://github.com/daxnee/board.git
-				@RequestParam("pageSize") int pageSize){ 
+				@RequestParam("pageSize") int pageSize){
+
 			List<Map<String, Object>> list = boardService.getSearchBoardList(writer, pageNum, pageSize);
 			return new PageInfo<Map<String, Object>>(list);
-=======
-				@RequestParam("pageSize") int pageSize ){ // @RequestParam : "writer"
-			List<Map<String, Object>> list =  boardService.selectBoard(writer, pageNum, pageSize);
-			return new PageInfo<Map <String, Object>>(list) ;
->>>>>>> 8aa1431 test
 		}
 		
 		// --- 0531
