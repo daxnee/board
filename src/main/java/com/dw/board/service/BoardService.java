@@ -14,7 +14,7 @@ import com.github.pagehelper.PageHelper;
 @Service
 public class BoardService {
 
-	@Autowired 
+	@Autowired
 	private BoardMapper boardMapper;
 	
 //	@Autowired
@@ -64,14 +64,13 @@ public class BoardService {
 		return boardMapper.selectSearchBoardList(studentsName);
 	}
 	
-	// --- 0531
-	//학생 수, 게시글 수, 작성자수, 총 조회수 통계
-	// as로 정한 별칭이 key값, 나온 쿼리 결과값이 value로 들어감
-	// Object? : 자식은 부모에 대입이 되니까 모든 데이터 타입을 받을 수 있음
+	//학생 수, 게시글 수, 작성자 수, 총 조회 수 통계
 	public Map<String, Object> getBoardStatistics(){
 		return boardMapper.selectBoardStatistics();
 	}
 	
+	
+
 	
 	
 	
