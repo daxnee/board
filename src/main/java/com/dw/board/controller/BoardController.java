@@ -44,6 +44,7 @@ public class BoardController {
 	@CrossOrigin
 	@GetMapping("/board/search")
 	public PageInfo<Map<String, Object>> callBoardSearch(
+			ModelMap map,
 			@RequestParam("writer") String writer,
 			@RequestParam("pageNum") int pageNum, 
 			@RequestParam("pageSize") int pageSize){
