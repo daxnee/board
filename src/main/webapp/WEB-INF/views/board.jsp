@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="resources/static/css/board.css">
+    <link rel="stylesheet" href="/resources/static/css/board.css">
 </head>
 <body>
     <div class="container">
@@ -18,7 +18,7 @@
             <div class="editor">
                 <div class="input-box">
                     <label for="studentsName">작성자 : </label>
-                    <input id="studentsName" type="text" value="양다은" readonly>
+                    <input id="studentsName" type="text" value="현상원" readonly>
                 </div>
                 <div class="input-box">
                     <label for="title">제목 : </label>
@@ -62,19 +62,19 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="/board?pageNum=1&pageSize=10">
                         <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
                         <span class="title">Dashboard</span>                
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="/students">
                         <span class="icon"><ion-icon name="person-outline"></ion-icon></span>
                         <span class="title">Students</span>                
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="/logs">
                         <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
                         <span class="title">logs</span>                
                     </a>
@@ -164,57 +164,56 @@
                          </tr>
                      </thead>
                      <tbody id="boardData">
-                        <c:choose>
-                        
-                        	<c:when test="${fn:length(pageHelper.list) > 0}">
-                        		<c:forEach items="${pageHelper.list}" var="item">
-                        			<tr onclick = "${item.boardId}">
-                        				<td>${item.boardId}</td>
-                        				<td>${item.studentsName}</td>
-                        				<td>${item.title}</td>
-                        				<td>${item.updateAt}</td>
-                        				<td>${item.createAt}</td>
-                        				<c:if test="${(item.cnt) < 10}">
-                        				<td><span class="row">${item.cnt}</span></td>
-                        				</c:if>
-                        				<c:if test="${(item.cnt) >= 10 && (item.cnt) < 20}">
-                        				<td><span class="middle">${item.cnt}</span></td>
-                        				</c:if>
-                        				<c:if test="${(item.cnt) >= 20}">
-                        				<td><span class="high">${item.cnt}</span></td>
-                        				</c:if>
+                     	<c:choose>
+                     		<c:when test="${fn:length(pageHelper.list) > 0 }">
+                     			<c:forEach items="${pageHelper.list}" var="item">                    			
+                     				<tr onclick="getBoard(${item.boardId})">
+			                            <td>${item.boardId}</td>
+			                            <td>${item.studentsName}</td>
+			                            <td>${item.title}</td>
+			                            <td>${item.updateAt}</td>
+			                            <td>${item.createAt}</td>
+			                            <c:if test="${item.cnt < 10}">
+			                            	<td><span class="row">${item.cnt}</span></td>
+			                            </c:if>
+			                            <c:if test="${item.cnt >= 10 && item.cnt < 20}">
+			                            	<td><span class="middle">${item.cnt}</span></td>
+			                            </c:if>
+			                            <c:if test="${item.cnt >= 20}">
+			                            	<td><span class="high">${item.cnt}</span></td>
+			                            </c:if>
                         			</tr>
-                        		</c:forEach>
-                        	</c:when>
-                        	<c:otherwise>
-                        		<tr><td colspan=6 style="text-align: center;">게시글이 없습니다.</td></tr>
-                        	</c:otherwise>
-                        </c:choose>
+                     			</c:forEach>
+                     		</c:when>
+                     		<c:otherwise>
+                     			<tr><td colspan=6 style="text-align: center;">게시글이 없습니다.</td></tr>
+                     		</c:otherwise>
+                     	</c:choose>
                      </tbody>
                  </table>
                  <div class="pagination">
                  	<c:if test="${pageHelper.hasPreviousPage}">
-                 			<a onclick="getBoardList(${pageHelper.pageNum-1},10)">Previous</a>
+                 		<a onclick="getBoardList(${pageHelper.pageNum-1},10)">Previous</a>
                  	</c:if>
-                 <c:forEach begin="${pageHandler.navigateFirstPage}" end="${pageHandler.navigateLastPage}" var=pageNum>
-                 	<a id="pageNum${pageNum}" onclick ="getBoardList(${pageNum},10)">${pageNum}</a>
-                 </c:forEach>
+                 	<c:forEach begin="${pageHelper.navigateFirstPage}" end="${pageHelper.navigateLastPage}" var="pageNum">
+						<a id="pageNum${pageNum}" onclick="getBoardList(${pageNum},10)">${pageNum}</a>  	
+                 	</c:forEach>
                  	<c:if test="${pageHelper.hasNextPage}">
-                 			<a onclick="getBoardList(${pageHelper.pageNum+1},10)">Next</a>
-                 	</c:if>    
+                 		<a onclick="getBoardList(${pageHelper.pageNum+1},10)">Next</a>
+                 	</c:if>
                  </div>
-                 <input id = "nowPageNum" type="hidden" value="${pageHelper.pageNum}">
+                 <input id="nowPageNum" type="hidden" value="${pageHelper.pageNum}">
              </div>
          </div>
     </div>
 </body>
-
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 <script
-src="https://code.jquery.com/jquery-3.6.0.min.js"
-integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-crossorigin="anonymous">
-</script>
-
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
 <script>
     $('.btn').click(function(){
         $('.write-popup').css('display', 'block');
@@ -223,8 +222,7 @@ crossorigin="anonymous">
         $('.write-popup').css('display', 'none');
     });
     $('.btn-close').click(function(){
-        $('.update-popup').css('display', 'none');
-        location.reload();// 상세보기창 닫았을때 새로고침
+        location.reload();//새로 고침
     });
     let list = document.querySelectorAll('.navigation li');
     function activeLink(){
@@ -233,188 +231,162 @@ crossorigin="anonymous">
     }
     list.forEach((item) => {item.addEventListener('mouseover',activeLink)});
 </script>
+<script>
+	getPageNum();//페이지 번호 알아내는 함수 호출
+	getBoardStatistics(); //통계 함수 호출
 
-<script type="text/javascript">
-
-	getPageNum()
-	getBoardStatistics();
+	function getBoardStatistics(){
+        $.ajax({
+            url: '/api/v1/board/statistics',
+            type : 'GET',
+            dataType: 'json',
+            success: function (response) {
+                //text() or html() input을 제외한 태그를 컨트롤할 때 사용.
+                //val()은 input 컨트롤할 때 사용.
+                $('#boardCnt').text(response.boardCnt);
+                $('#studentsCnt').text(response.studentsCnt);
+                $('#writerCnt').text(response.writerCnt);
+                $('#viewsCnt').text(response.viewsCnt);
+            }
+        });
+    };
 	
-	
-	
-	
-	function goPage(pageNum){
-	if(pageNum == 'logs'){
-		location.href = "/logs";
-	}
-	if(pageNum == 'students'){
-		location.href = "board/search?writer="	
-	}
-	if(pageNum == 'Dashboard'){
-		location.href = "board/search?writer="
-	}
-
-	}
-
 	function getPageNum(){
 		var pageNum = $('#nowPageNum').val();
-		$('#pageNum'+pageNum).css('backgroundColor', '#287bff'); // id+pageNum = id가 pageNum2인 css의 색상을 변경(id를 유동적으로 변경이 가능)
-		$('#pageNum'+pageNum).css('color', '#fff');
-	}
-
-	function getBoardList(pageNum, pageSize){
-		location.href = "/board?pageNum="+pageNum+"&pageSize="+pageSize;
+		$('#pageNum'+pageNum).css('backgroundColor','#287bff');
+		$('#pageNum'+pageNum).css('color','#fff');
 	}
 	
-	 function getBoard(boardId){//클릭한 게시물 확인하는 함수 
-	        $('.update-popup').css('display', 'block');
-	        $.ajax({
-	            url: '/api/v1/board/boardId/'+boardId,
-	            type : 'GET',
-	            dataType: 'json',
-	            success: function (response) {
-	                $('#upt-title').val(response.title);
-	                $('#upt-content').val(response.content);
-	                $('#boardIdHidden').val(boardId);
-	                setBoardViews(boardId); //조회 수 함수
-	            }
-	        });
-	    }//end
-	    
-	    function setBoardViews(boardId){ //게시판 조회수 증가 함수
-	        $.ajax({
-	            url: '/api/v1/board/views/boardId/'+boardId,
-	            type : 'PATCH',
-	            dataType: 'json',
-	            success: function (response) {
-	                if(response > 0){
-						//추후 로직 예정
-	                }
-	            }
-	        });
-	    }
-	    
-	    
-	    $('#contentSubmit').click(function(){
-	        if(confirm('게시글을 작성하시겠습니까?')){
-	            var title = $('#title').val();
-	            var content = $('#content').val();
-	            var studentsId = 13;
-	            if(title == ''){
-	                alert('제목을 입력 해주세요');
-	                $('#title').focus();
-	                return false;
-	            }
-	            if(content == ''){
-	                alert('내용을 작성 해주세요');
-	                $('#content').focus();
-	                return false;
-	            }
-	            var jsonData = {
-	            studentsId : studentsId,
-	            title : title,
-	            content : content
-	            };
-	            $.ajax({
-	                url : '/api/v1/board',
-	                type : 'POST',
-	                contentType: 'application/json', //서버에 json 타입으로 보낼 예정(요청)
-	                dataType: 'json', //서버 결과를 json으로 응답받겠다.
-	                data: JSON.stringify(jsonData),
-	                success : function(response){
-	                    if(response > 0){
-	                    	var pageNum = $('#nowPageNum').val();
-	                    	getBoardList(pageNum, 10); // 다시 요청하는거니까 remove 필요 없음
-	                    }
-	                }
-	            });//ajax end
-	        }//if end 
-	    });//contentSubmit click end
-	    
-	    
-	  //게시물 수정 하는 함수
-	    $('#contentUpdate').click(function(){
-	        //1. 게시판 번호 확인
-	        var boardId =  $('#boardIdHidden').val(); //hidden에 숨겨둔 boardId 가져오기.
-	        //2. JSON 생성
-	        var title = $('#upt-title').val();
-	        var content = $('#upt-content').val();
-	        var jsonData = {
-	            title : title,
-	            content : content
-	        };
-	        //3. AJAX를 이용해서 업데이트!
-	        $.ajax({
-	                url : '/api/v1/board/boardId/'+boardId,
-	                type : 'PATCH', //HTTP 메소드는 PATCH
-	                contentType: 'application/json', //서버에 json 타입으로 보낼 예정(요청)
-	                dataType: 'json', //서버 결과를 json으로 응답받겠다.
-	                data: JSON.stringify(jsonData),
-	                success : function(response){
-	                    if(response > 0){
-	                    	alert('수정 완료');
-	                    	var pageNum = $('#nowPageNum').val();
-	                    	getBoardList(pageNum, 10); // 다시 요청하는거니까 remove 필요 없음
-	                    }
-	                }
-	            });//ajax end
-	    });//end
-	    
+	function getBoardList(pageNum, pageSize){
+		location.href="/board?pageNum="+pageNum+"&pageSize="+pageSize;
+	}
+	
+	function getBoard(boardId){//클릭한 게시물 확인하는 함수 
+        //boardId html에 hidden 하기
+        //1. 화면 none -> block
+        $('.update-popup').css('display', 'block');
+        //AJAX 작성
+        //2. AJAX를 이용해서 서버와 연결
+        $.ajax({
+            url: '/api/v1/board/boardId/'+boardId,
+            type : 'GET',
+            dataType: 'json',
+            success: function (response) {
+                //3. input에 데이터 set 해주기!  
+                $('#upt-title').val(response.title);
+                $('#upt-content').val(response.content);
+                $('#boardIdHidden').val(boardId);
+                setBoardViews(boardId); //조회 수 증가하는 함수
+            }
+        });
+    }//end
+    
+    function setBoardViews(boardId){ //게시판 조회수 증가 함수
+        $.ajax({
+            url: '/api/v1/board/views/boardId/'+boardId,
+            type : 'PATCH',
+            dataType: 'json',
+            success: function (response) {
+                if(response > 0){
+                	//추후 로직 예정 (에러 페이지로 이동하는 로직)
+                }
+            }
+        });
+    }
+    
+    /* 게시판 작성 함수 */
+    $('#contentSubmit').click(function(){
+        if(confirm('게시글을 작성하시겠습니까?')){
+            var title = $('#title').val();
+            var content = $('#content').val();
+            var studentsId = 13;
+            if(title == ''){
+                alert('제목을 입력 해주세요');
+                $('#title').focus();
+                return false;
+            }
+            if(content == ''){
+                alert('내용을 작성 해주세요');
+                $('#content').focus();
+                return false;
+            }
+            var jsonData = {
+            studentsId : studentsId,
+            title : title,
+            content : content
+            };
+            $.ajax({
+                url : '/api/v1/board',
+                type : 'POST',
+                contentType: 'application/json', //서버에 json 타입으로 보낼 예정(요청)
+                dataType: 'json', //서버 결과를 json으로 응답받겠다.
+                data: JSON.stringify(jsonData),
+                success : function(response){
+                    if(response > 0){
+                        var pageNum = $('#nowPageNum').val();
+                        getBoardList(pageNum, 10);
+                    }
+                }
+            });//ajax end
+        }//if end 
+    });
+    
+    //게시물 수정 하는 함수
+    $('#contentUpdate').click(function(){
+        //1. 게시판 번호 확인
+        var boardId =  $('#boardIdHidden').val(); //hidden에 숨겨둔 boardId 가져오기.
+        //2. JSON 생성
+        var title = $('#upt-title').val();
+        var content = $('#upt-content').val();
+        var jsonData = {
+            title : title,
+            content : content
+        };
+        //3. AJAX를 이용해서 업데이트!
+        $.ajax({
+                url : '/api/v1/board/boardId/'+boardId,
+                type : 'PATCH', //HTTP 메소드는 PATCH
+                contentType: 'application/json', //서버에 json 타입으로 보낼 예정(요청)
+                dataType: 'json', //서버 결과를 json으로 응답받겠다.
+                data: JSON.stringify(jsonData),
+                success : function(response){
+                    if(response > 0){
+                    	 alert('수정완료');
+                    	 var pageNum = $('#nowPageNum').val();
+                         getBoardList(pageNum, 10);
+                    }
+                }
+            });//ajax end
+    });//end
 
-	    //게시물 삭제 하는 함수
-	    $('#contentDelete').click(function(){
-	        var boardId =  $('#boardIdHidden').val(); //hidden에 숨겨둔 boardId 가져오기.
-	        if(confirm('정말 삭제?')){
-	        	
-	        
-	        $.ajax({
-	            url: '/api/v1/board/boardId/'+boardId,
-	            type : 'DELETE',
-	            dataType: 'json',
-	            success: function (response) {
-	                if(response > 0){
-	                	alert('삭제 완료');
-	                	var pageNum = $('#nowPageNum').val();
-                    	getBoardList(pageNum, 10); // 다시 요청하는거니까 remove 필요 없음
-	                	}
-	            	}
-		        });
-	        }
-	    });
-	    
-	    
-	    //통계함수
-	    function getBoardStatistics(){
-	        $.ajax({
-	            url: '/api/v1/board/statistics',
-	            type : 'GET',
-	            dataType: 'json',
-	            success: function (response) {
-	                $('#boardCnt').text(response.boardCnt);
-	                $('#studentsCnt').text(response.studentsCnt);
-	                $('#writerCnt').text(response.writerCnt);
-	                $('#viewsCnt').text(response.viewsCnt);
-	            }
-	        });
-	    };//end
-	    
-	    //페이지 통계
-	    $('#searchBar').keyup(function(key){
-	        //엔터를 누를때 hello world를 출력하고 싶음.
-	        //13은 엔터를 의미
-	        var pageSize = 10;
-	        var pageNum = 1;
-	        if(key.keyCode == 13){
-	            //1. input 값을 가져옴.
-	            var search = $('#searchBar').val().trim();//input에 작성한 작성자를 가져옴
-	            if(search != ''){
-	            	location.href = "board/search?writer="
-	            } 
-	       	 }
-	    });
-	    
-	    
-	    
-	    
+    //게시물 삭제 하는 함수
+    $('#contentDelete').click(function(){
+        var boardId =  $('#boardIdHidden').val(); //hidden에 숨겨둔 boardId 가져오기.
+        if(confirm('해당 게시물을 정말 삭제하시겠습니까?')){
+        	 $.ajax({
+                 url: '/api/v1/board/boardId/'+boardId,
+                 type : 'DELETE',
+                 dataType: 'json',
+                 success: function (response) {
+                     if(response > 0){
+                    	alert('삭제완료');
+                     	var pageNum = $('#nowPageNum').val();
+                        getBoardList(pageNum, 10);
+                     }
+                 }
+             }); 	
+        }
+    });
+      
+    $('#searchBar').keyup(function(key){
+        var pageSize = 10;
+        var pageNum = 1;
+        if(key.keyCode == 13){
+            var search = $('#searchBar').val().trim();//input에 작성한 작성자를 가져옴
+           	if(search != ''){
+           		location.href="/board/search?writer="+search+"&pageNum="+pageNum+"&pageSize="+pageSize;
+           	}
+        }
+    });
 </script>
-
 </html>

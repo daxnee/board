@@ -15,27 +15,27 @@ import com.dw.board.service.LogsService;
 import com.github.pagehelper.PageInfo;
 
 @RestController
-@RequestMapping("/api/v1")
-public class LogRestController {
-	
+@RequestMapping("/api/v1") 
+public class LogsRestController {
+
 	@Autowired
 	private LogsService logsService;
 	
+	//http://localhost:8080/api/v1/logs?pageNum=1&pageSize=10
 	@CrossOrigin
 	@GetMapping("/logs")
 	public PageInfo<Map<String, Object>> getLogsList(@RequestParam("pageNum") int pageNum, 
 			@RequestParam("pageSize") int pageSize){
+		
 		List<Map<String, Object>> list = logsService.getLogsList(pageNum, pageSize);
 		
 		return new PageInfo<Map<String, Object>>(list);
 	}
 	
-	// 특정 logId의 로그기록을 가져오기
 	@CrossOrigin
 	@GetMapping("/logs/logId/{logId}")
 	public Map<String, Object> callLogs(@PathVariable("logId") int logId) {
 		return logsService.getLogs(logId);
 	}
-	
 	
 }
