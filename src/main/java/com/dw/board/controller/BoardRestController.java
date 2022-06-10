@@ -38,13 +38,12 @@ public class BoardRestController {
 		@CrossOrigin
 		@GetMapping("/board")
 		//리턴타입을 List<Map<String, Object>> => PageInfo<Map<String, Object>>
-		// pageInfo 라는 이미 만들어진 라이브러리를 사용한 것임
 		public PageInfo<Map<String, Object>> callBoardList(@RequestParam("pageNum") int pageNum, 
-				@RequestParam("pageSize") int pageSize,
-				@RequestParam("writer") String studentsName){
+				@RequestParam("pageSize") int pageSize){
 			
-			List<Map<String, Object>> list =  boardService.selectBoard(studentsName, pageNum, pageSize);
-			return new PageInfo<Map <String, Object>>(list) ;
+			List<Map<String, Object>> list = boardService.getAllBoardList(pageNum, pageSize);
+			
+			return new PageInfo<Map<String, Object>>(list);
 		}
 		
 		//----0526
@@ -86,7 +85,7 @@ public class BoardRestController {
 		public PageInfo<Map<String, Object>> callBoardSearch(@RequestParam("writer") String writer,
 				@RequestParam("pageNum") int pageNum, 
 				@RequestParam("pageSize") int pageSize){
-
+			
 			List<Map<String, Object>> list = boardService.getSearchBoardList(writer, pageNum, pageSize);
 			return new PageInfo<Map<String, Object>>(list);
 		}

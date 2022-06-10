@@ -29,7 +29,7 @@ public interface BoardMapper {
 	 * @date : 2022. 5. 19.
 	 * comment : 게시판 조회
 	 */
-	public List<Map<String, Object>> selectBoard();
+	public List<Map<String, Object>> selectAllBoardList();
 	
 	/**
 	 * @param boardId

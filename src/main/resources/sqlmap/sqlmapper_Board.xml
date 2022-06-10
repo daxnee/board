@@ -24,7 +24,7 @@
 	<!-- 게시판 조회 (join)-->
 	<!--JOIN으로 조회할 때 map으로  -->
 	
-	<select id="selectBoard" resultType = "map">
+	<select id="selectAllBoardList" resultType = "map">
 		SELECT
 			board_id AS boardId,
 			s.students_id AS studentsId,
