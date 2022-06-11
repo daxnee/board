@@ -2,24 +2,25 @@
 <!-- MyBatis에게 Mapper 경로를 적어야 한다. -->
 <mapper namespace="com.dw.board.mapper.BoardMapper">
 	
-	<insert id="insertBoard">
-		INSERT INTO board
-		(
-			title,
-			content
-			<if test="studentsId != 0">
-			,students_id
-			</if>
-		)
-		VALUES
-		(
-			#{title},
-			#{content}
-			<if test="studentsId != 0">
-			,#{studentsId}
-			</if>
-		)
-	</insert>
+	<!-- 게시판 저장 -->
+		<insert id="insertBoard">
+			INSERT INTO board
+				(
+				title,
+				content
+					<if test="studentsId != 0">
+					,students_id
+					</if>
+				)
+			VALUES
+				(
+				#{title},
+				#{content}
+					<if test="studentsId != 0">
+					,#{studentsId}
+					</if>
+				)
+		</insert>
 	
 	<!-- *join으로 조회할 때  resultType을 map으로 -->
 	<select id="selectAllBoardList" resultType="map">

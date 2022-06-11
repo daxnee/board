@@ -22,9 +22,12 @@ public class BoardService {
 	
 	//게시판 저장
 	@Transactional(rollbackFor = Exception.class)
-	public int setBoard(BoardVO vo) {
+	public int getBoardInsert(BoardVO vo) {
 		return boardMapper.insertBoard(vo);
 	}
+	
+	
+	
 	//게시판 전체 조회
 	//pageNum : 현재 페이지, pageSize: 한 페이지에 게시물 몇개 보여줄지
 	public List<Map<String, Object>> getAllBoardList(int pageNum, int pageSize){

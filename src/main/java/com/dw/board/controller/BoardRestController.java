@@ -30,7 +30,7 @@ public class BoardRestController {
 	@CrossOrigin
 	@PostMapping("/board")
 	public int callSaveBoard(@RequestBody BoardVO vo) {
-		return boardService.setBoard(vo);
+		return boardService.getBoardInsert(vo);
 	}
 	
 	//게시판 전체조회 (R)
