@@ -24,6 +24,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/board")
+	//http://yoonbumtae.com/?p=2957 
 	public String callBoardPage(ModelMap map,
 			@RequestParam("pageNum") int pageNum,
 			@RequestParam("pageSize") int pageSize){
