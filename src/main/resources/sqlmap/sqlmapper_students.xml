@@ -92,19 +92,10 @@
 	 	WHERE students_name = #{studentsName}
 	 </select>
 	 
-	<select id="selectStudentsOne" resultType="StudentsVO">
-		SELECT 
-			students_id AS studentsId,
-			students_name AS studentsName,
-			students_password AS studentsPassword,
-			create_at AS createAt
-		FROM students
-		WHERE 
-		students_name = #{studentsName}
-	</select>
+
 	
 	<!-- 검색창으로 학생 검색 -->
-	<select id="selectStudentsSearch" resultType="map">
+		<select id="selectStudentsSearch" resultType="map">
 		SELECT
 			students_id AS studentsId,
 			students_name AS studentsName,
@@ -113,7 +104,6 @@
 			students
 		WHERE
 			 students_name LIKE CONCAT('%',#{studentsName},'%')
-	</select>
-
+		</select>
 
 </mapper>

@@ -6,7 +6,6 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -94,7 +93,7 @@ public class StudentsRestController {
 		
 		// 쿼리 스트링 이름조회
 		@CrossOrigin
-		@GetMapping("/students/search")
+		@GetMapping("/students/searchName")
 		public List<Map<String, Object>> callStudentsSearch(@RequestParam("writer") String studentsName){ // @RequestParam : "writer"
 			return studentsService.getselectAllStudents(studentsName);
 		}
@@ -121,6 +120,15 @@ public class StudentsRestController {
 			return studentsService.getUpdateStudents(vo, studentsId);
 		}
 		
-		
+		@CrossOrigin
+		@GetMapping("/students/search")
+		public PageInfo<Map<String, Object>> callStudentsSearch(
+				@RequestParam("studentsName") String studentsName,
+				@RequestParam("pageNum") int pageNum,
+				@RequestParam("pageSize") int pageSize
+				){
+			List<Map<String,Object>> list = studentsService.getStudentsSearch(studentsName,pageNum,pageSize);
+			return new PageInfo<Map<String, Object>>(list);
+		}
 		
 }
