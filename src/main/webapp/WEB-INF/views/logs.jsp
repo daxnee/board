@@ -36,27 +36,27 @@
         <div class="navigation">
             <ul>
                 <li>
-                    <a href="#">
+                    <a href="/board?pageNum=1&pageSize=10">
                         <span class="icon"><ion-icon name="logo-apple"></ion-icon></span>
                         <span class="title">DW Board</span>                
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="/board?pageNum=1&pageSize=10">
                         <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
-                        <span class="title">Dashboard</span>                
+                        <span class="title" onclick = "goPage('Dashboard')">Dashboard</span>                
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="/students">
                         <span class="icon"><ion-icon name="person-outline"></ion-icon></span>
-                        <span class="title">Students</span>                
+                        <span class="title" onclick= "goPage('Students')">Students</span>                
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="/logs">
                         <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
-                        <span class="title">logs</span>                
+                        <span class="title" onclick= "goPage('logs')">logs</span>                
                     </a>
                 </li>
                 <li>

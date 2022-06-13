@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,9 @@ public class StudentsRestController {
 
 	@Autowired
 	private StudentsService studentsService;
+	
+
+
 	
 	//0519
 	//중요한 정보를 서버에 전송할 때 post사용!
@@ -61,6 +65,7 @@ public class StudentsRestController {
 		}
 
 	//list로 학생 조회
+		@CrossOrigin 
 		@GetMapping("/students")
 		public List<StudentsVO> callStudentsList(){
 			return studentsService.getAllStudentsList();
@@ -97,20 +102,20 @@ public class StudentsRestController {
 	//특정 학생 조회(PK로 조회예정)
 		@CrossOrigin
 		@GetMapping("/students/id/{id}")
-		public StudentsVO callStudents(@PathVariable("id") int studentsId) {
-			
-			return studentsService.getselectStudents(studentsId);
+		public Map<String,Object> callStudents(@PathVariable("id") int studentsId) {
+			return studentsService.getSelectStudents(studentsId);
 		}
 		
 		
 	// 특정 학생 delete
+		@CrossOrigin 
 		@DeleteMapping("/students/id/{id}")
 		public int callRemoveStudents(@PathVariable("id") int studentsId) {
 			return studentsService.getDeleteStudents(studentsId);
 		}
 	
 	// 특정 학생 update(수정)
-
+		@CrossOrigin
 		@PatchMapping("/students/id/{id}")
 		public int callUpdateStudents(@PathVariable("id") int studentsId, @RequestBody StudentsVO vo){
 			return studentsService.getUpdateStudents(vo, studentsId);

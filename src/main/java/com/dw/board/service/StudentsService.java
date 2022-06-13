@@ -48,8 +48,8 @@ public class StudentsService {
 		return studentsMapper.selectAllStudents(studentsName);
 	}
 	
-	//특정 학생 조회
-	public StudentsVO getselectStudents(int studentsId) {
+	//id로 특정 학생 조회
+	public Map<String,Object> getSelectStudents(int studentsId) {
 		return studentsMapper.selectStudents(studentsId);
 	}
 	
@@ -89,5 +89,31 @@ public class StudentsService {
 		
 		return true;
 	}
+	
+	@Transactional(rollbackFor = {Exception.class})
+	public int getUpdateStudents(int studentsId, StudentsVO vo) {
+				vo.setStudentsId(studentsId);
+				String password = vo.getStudentsPassword();
+				// DB에 생성할 입력한 비밀번호를 가져온다.
+				System.out.println("암호화 전 => "+password);
+				
+				password = passwordEndoder.encode(password);
+				// 암호화할 데이터를 encode함수 파라미터에 넣어주고 변수에 대입.
+				System.out.println("암호화 후 => "+password);
+				vo.setStudentsPassword(password);
+				// 암호화한 비밀번호를 다시 set해서 VO필드변수에 단방향 암호화한 password를 값으로 넣어준다.(?)
+				int rows = studentsMapper.updateStudents(vo);
+				return rows;
+		// vo클래스에 set을 해줌으로써 vo클래스의 필드변수에 값을 넣어준다.
+		//그러면 이미 body로 받은 값과 헤더에서 받은 값("{id}")은 VO클래스에 존재하여 MyBatis에서 쿼리를 계산할 수 있다.
+	}
+	
+	//검색창에 특정 학생 검색
+	public List<Map<String, Object>> getStudentsSearch(String studentsName,int pageNum, int pageSize){
+		PageHelper.startPage(pageNum, pageSize);
+		return studentsMapper.selectStudentsSearch(studentsName);
+	}
+	
+	
 	
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,8 +18,8 @@ public class BoardService {
 	@Autowired
 	private BoardMapper boardMapper;
 	
-//	@Autowired
-//	private PasswordEncoder passwordEndoder;
+	@Autowired
+	private PasswordEncoder passwordEndoder;
 	
 	//게시판 저장
 	@Transactional(rollbackFor = Exception.class)
@@ -71,11 +72,6 @@ public class BoardService {
 	public Map<String, Object> getBoardStatistics(){
 		return boardMapper.selectBoardStatistics();
 	}
-	
-	
-
-	
-	
 	
 	
 }

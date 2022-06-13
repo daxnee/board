@@ -52,7 +52,7 @@ public interface StudentsMapper {
 	 * @date : 2022. 5. 20.
 	 * comment : 특정 학생 조회
 	 */
-	public StudentsVO selectStudents(int studentsId);
+	public Map<String, Object> selectStudents(int studentsId);
 	
 	/**
 	 * @param studentsId
@@ -80,6 +80,11 @@ public interface StudentsMapper {
 	 * comment : 학생 이름으로 학생정보 조회
 	 */
 	public StudentsVO selectStudentsOne(StudentsVO vo);
+	
+	
+	public List<Map<String,Object>> selectStudentsSearch(String studentsName);
+	
+	
 	
 	
 }

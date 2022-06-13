@@ -23,7 +23,7 @@
 	 	FROM students 
 	 </select>
 	 
-	 <!-- map으로 리턴해보기 (join)-->
+	 <!-- 검색창으로 학생 검색 -->
 	  <select id="selectAllStudents" resultType = "map">
 	 	<!-- 별칭을 주는 이유: studentsVO의 필드변수명과 같아야만 매핑이 됨 -->
 	 	SELECT 
@@ -49,19 +49,19 @@
 	 </select>
 	 
 	 
-	 
-	 
-	 
-	 <!-- 특정학생 조회 -->
-	 <select id="selectStudents" resultType = "StudentsVO">
-	 	SELECT 
-	 		students_id AS studentsId,
-	 		students_name AS studentsName,
-	 		students_password AS studentsPassword,
-	 		create_at AS createAt
-	 	FROM students 
-	 	WHERE students_id = #{studentsId}
-	 </select>
+	 <!--id로 특정학생 조회 -->
+	
+	 <select id="selectStudents" resultType="map">
+		SELECT 
+			students_id AS studentsId,
+			students_name AS studentsName,
+			students_password AS studentsPassword,
+			date_format(create_at, '%Y-%m-%d') AS createAt
+		FROM 
+			students
+		WHERE 
+			students_id = #{studentsId}
+		</select>
 	 
 	 <!-- 삭제 -->
 	 <delete id="deleteStudents">
@@ -90,6 +90,30 @@
 	 		create_at AS createAt 
 	 	FROM students
 	 	WHERE students_name = #{studentsName}
-	 
 	 </select>
+	 
+	<select id="selectStudentsOne" resultType="StudentsVO">
+		SELECT 
+			students_id AS studentsId,
+			students_name AS studentsName,
+			students_password AS studentsPassword,
+			create_at AS createAt
+		FROM students
+		WHERE 
+		students_name = #{studentsName}
+	</select>
+	
+	<!-- 검색창으로 학생 검색 -->
+	<select id="selectStudentsSearch" resultType="map">
+		SELECT
+			students_id AS studentsId,
+			students_name AS studentsName,
+			date_format(create_at, '%Y-%m-%d') AS createAt
+		FROM 
+			students
+		WHERE
+			 students_name LIKE CONCAT('%',#{studentsName},'%')
+	</select>
+
+
 </mapper>
