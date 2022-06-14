@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,8 +18,8 @@ import com.dw.board.vo.LogVO;
 
 @Component // 개발자(나)가 직접 작성한 class를 spring에게 Bean으로 등록하라는 뜻 
 public class Interceptor implements HandlerInterceptor{
-
-	@Autowired 
+	// IoC
+	@Autowired  // == new로 객체생성을 대신해줌
 	private LogsService logsService; 
 	
 	// 메소드 자동 생성 기능 : Source -> Override/implements 메소드
@@ -54,6 +55,12 @@ public class Interceptor implements HandlerInterceptor{
 		vo.setLongitude("127.4229992"); // 경도 임시데이터 넣어줌
 		vo.setCreateAt(time);
 		logsService.setLogs(vo); // LogVO를 받고 있으니까 
+		
+		//세션 체크
+		HttpSession session = request.getSession();
+		if(session.getAttribute("studentsId") == null) { // 세션에 값이 없으면 /login 경로로 들어가라
+			response.sendRedirect("/login"); //내 파트 아니니 login으로 넘어가
+		}
 		
 		return true;
 	}

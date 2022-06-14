@@ -1,10 +1,13 @@
 package com.dw.board.utils;
 
+import org.springframework.stereotype.Component;
+
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Component	
 public class PageHandler {
 	private int total; // 전체 게시물 수
 	private int pageNum; //현재 페이지
@@ -66,10 +69,10 @@ public class PageHandler {
 	}
 	
 	// 현재 블록의 마지막 페이지
-	public void setEndPage(int nowBlock, int total) {
+	public void setEndPage(int nowBlock, int pages) {
 		this.endPage = nowBlock * this.navigatePages;
 		if(nowBlock == this.lastBlock) {
-			this.endPage = total;
+			this.endPage = pages;
 		}
 	}
 	

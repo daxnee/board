@@ -31,23 +31,20 @@ public class StudentsRestController {
 	private StudentsService studentsService;
 	
 
-
+		//0519
+		//중요한 정보를 서버에 전송할 때 post사용!
+		@CrossOrigin 
+		@PostMapping("/login") //(세션)
+		public boolean callIsLogin(@RequestBody StudentsVO vo, HttpSession httpSession) { //HttpSession: 세션 저장 클래스(회원정보, 이름만 있는 상태)
+			boolean isLogin = studentsService.IsStudents(vo, httpSession); //로그인 할 때 입력한 비밀번호와 DB에 있는 비번이 일치하는지 확인하는 boolean형 메소드
+			// IsStudents()결과를 (true) isLogin에 넣어줌 (비밀번호가 같은지 다른지)
 	
-	//0519
-	//중요한 정보를 서버에 전송할 때 post사용!
-	@CrossOrigin 
-	@PostMapping("/login") //(세션)
-	public boolean callIsLogin(@RequestBody StudentsVO vo, HttpSession httpSession) { //HttpSession: 세션 저장 클래스(회원정보, 이름만 있는 상태)
-		boolean isLogin = studentsService.IsStudents(vo); //로그인 할 때 입력한 비밀번호와 DB에 있는 비번이 일치하는지 확인하는 boolean형 메소드
-		// IsStudents()결과를 (true) isLogin에 넣어줌 (비밀번호가 같은지 다른지)
-		if(isLogin) {
-			httpSession.setAttribute("name", "yangdaeun"); //true면 세션에 저장
+			
 			// HttpSession가 세션에 저장하는 방식 : key, value
 			// 내가 세션을 직접 설정하기 전까진 yangdaeun 이름이 세션 value에 저장됨
 			// public void setAttribute(String name, Object value); => HttpSession 클래스에 있는 메소드
-		}
-		return isLogin; // isLogin 하지 않으면 null로 뜬다 
-		// true or false 인지 알아야 map에 list로 조회된다.
+	
+		return isLogin; // isLogin 하지 않으면 null로 뜬다 // true or false 인지 알아야 map에 list로 조회된다.
 	}
 	// boolean으로 html과 db에서 온 데이터(비밀번호)를 비교해서 같으면 true, 다르면 false를 반환함(postman)에서 확인가능
 	// 학생을 저장하고(post), 같은 json데이터를 비교하면(post) 비번을 확인해 결과를 리턴한다.
@@ -56,7 +53,7 @@ public class StudentsRestController {
 	//post는 body로 데이터를 받아야 한다(보안)
 	//ex) password가 url에 보이면 안되는 이유
 
-	//학생 저장
+		//학생 저장
 		@CrossOrigin 
 		@PostMapping("/students") // api/v1/students : api주소고 버전은 1이라는 뜻
 		public int callSaveStudents(@RequestBody StudentsVO vo) {
@@ -120,15 +117,14 @@ public class StudentsRestController {
 			return studentsService.getUpdateStudents(vo, studentsId);
 		}
 		
+		// 서치바에서 작성자 검색하기(쿼리스트링)
 		@CrossOrigin
 		@GetMapping("/students/search")
-		public PageInfo<Map<String, Object>> callStudentsSearch(
-				@RequestParam("studentsName") String studentsName,
-				@RequestParam("pageNum") int pageNum,
-				@RequestParam("pageSize") int pageSize
-				){
-			List<Map<String,Object>> list = studentsService.getStudentsSearch(studentsName,pageNum,pageSize);
-			return new PageInfo<Map<String, Object>>(list);
+		public PageInfo<Map<String,Object>> callStudentsList(@RequestParam("writer") String writer,
+				@RequestParam("pageNum")int pageNum,
+				@RequestParam("pageSize")int pageSize){
+			List<Map<String, Object>> list = studentsService.getStudentsSearchList(pageNum,pageSize,writer);
+			return new PageInfo<Map<String,Object>>(list);
 		}
 		
 }

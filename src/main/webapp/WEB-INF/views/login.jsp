@@ -55,14 +55,14 @@
 
         //AJAX 세팅
         $.ajax({
-          url : 'http://localhost:8080/api/v1/login',
+          url : '/api/v1/login',
           type : 'POST', 
           contentType: 'application/json', //서버에 json 타입으로 보낼 예정(요청)
           dataType: 'json', //서버 결과를 json으로 응답받겠다.
           data: JSON.stringify(jsonData),
           success : function(response){
             if(response){
-              location.href = 'board/index.html'; //페이지 이동!
+              location.href = 'board?pageNum=1&pageSize=10'; //페이지 이동!
             }else{
               alert('비밀번호 혹은 이름이 틀렸습니다.');
             }

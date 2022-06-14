@@ -22,6 +22,11 @@ public interface BoardMapper {
 	public int insertBoard(BoardVO vo);
 	
 	
+	public List<Map<String, Object>> selectAllBoardListTest
+	(@Param("pageNum") int pageNum,
+		@Param("pageSize") int pageSize);
+	
+	
 	/**
 	 * @return
 	 * @author : Sangwon Hyun
@@ -29,6 +34,7 @@ public interface BoardMapper {
 	 * comment : 전체 게시판 조회
 	 */
 	public List<Map<String, Object>> selectAllBoardList();
+	
 	
 	public int updateBoard(BoardVO vo);
 	
@@ -42,5 +48,15 @@ public interface BoardMapper {
 	
 	
 	public Map<String, Object> selectBoardStatistics();
+	
+	
+	/**
+	 * @return
+	 * @author : Daeun Yang
+	 * @date : 2022. 6. 14.
+	 * comment : 전체 게시물 count
+	 */
+	public int selectAllBoardTotal();
+	
 	
 }

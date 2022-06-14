@@ -24,7 +24,7 @@
 	 </select>
 	 
 	 <!-- 검색창으로 학생 검색 -->
-	  <select id="selectAllStudents" resultType = "map">
+	  	<select id="selectAllStudents" resultType = "map">
 	 	<!-- 별칭을 주는 이유: studentsVO의 필드변수명과 같아야만 매핑이 됨 -->
 	 	SELECT 
 	 		students_id AS studentsId, 
@@ -33,7 +33,7 @@
 			date_format(create_at, '%Y-%m-%d') AS createAt
 	 	FROM students 
 	 	WHERE students_name LIKE CONCAT('%',#{studentsName},'%')
-	 </select>
+	 	</select>
 	 
 	 
 	 
@@ -95,15 +95,13 @@
 
 	
 	<!-- 검색창으로 학생 검색 -->
-		<select id="selectStudentsSearch" resultType="map">
+		<select id="studentsSearchList" resultType="map">
 		SELECT
 			students_id AS studentsId,
 			students_name AS studentsName,
-			date_format(create_at, '%Y-%m-%d') AS createAt
-		FROM 
-			students
-		WHERE
-			 students_name LIKE CONCAT('%',#{studentsName},'%')
+			create_at AS createAt
+		FROM students
+		WHERE students_name LIKE CONCAT('%',#{studentsName},'%')
 		</select>
 
 </mapper>
