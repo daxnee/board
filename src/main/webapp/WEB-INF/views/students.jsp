@@ -108,6 +108,7 @@
             <div class="search">
                 <label>
                     <input id="searchBar" type="text" placeholder="학생이름을 검색하세요..." >
+                     <input id="keyword" type="hidden" value="null" />
                 </label>
             </div>
             <div>
@@ -198,66 +199,66 @@
         });
     }; //end getStudents()
 
-getStudentsList(1, 10); // 함수 호출 (없으면 결과 안 뜸)
+	getStudentsList(1, 5); // 함수 호출 (없으면 결과 안 뜸)
 
-function getStudentsList(pageNum, pageSize){
-$.ajax({
-    url : '/api/v1/students/map?pageNum='+pageNum+'&pageSize='+pageSize,
-    type : 'GET',
-    dataType : 'json',
-    success : function(response){ 
-        console.log(response.list);
-    var html = '';
-    var len = response.list.length;
-    if(len > 0){  
-    for(var i=0; i<len; i++){ // 
-        if(len > 0){         
-            html += 
-        '<tr onclick=getStudents('+response.list[i].studentsId+')><td>'  
-            +response.list[i].studentsId+
-            '</td><td>'
-            +response.list[i].studentsName+
-            '</td><td>'
-            +response.list[i].createAt+
-             '</td></tr>'
-            }
-        }// end for
+		function getStudentsList(pageNum, pageSize){
+		$.ajax({
+	    url : '/api/v1/students/map?pageNum='+pageNum+'&pageSize='+pageSize,
+	    type : 'GET',
+	    dataType : 'json',
+	    success : function(response){ 
+	        console.log(response.list);
+	    var html = '';
+	    var len = response.list.length;
+	    if(len > 0){  
+	    for(var i=0; i<len; i++){ // 
+	        if(len > 0){         
+	            html += 
+	        '<tr onclick=getStudents('+response.list[i].studentsId+')><td>'  
+	            +response.list[i].studentsId+
+	            '</td><td>'
+	            +response.list[i].studentsName+
+	            '</td><td>'
+	            +response.list[i].createAt+
+	             '</td></tr>'
+	            }
+	        }// end for
 
         // 페이징 화면 구현
-        var paginationHtml = '';
-        if(response.hasPreviousPage){ // 이전 페이지가 있다면(true)
-            paginationHtml  += '<a onclick="getStudentsList('+(response.pageNum-1)+', '+pageSize+')" href="#">Previous</a>';
-        }
-        for(var i=0; i<response.navigatepageNums.length; i++){ // 페이지 번호 길이 만큼 for문 실행 / navigatepageNums : array
-            paginationHtml += '<a id="pageNum'+response.navigatepageNums[i]+'" onclick="getStudentsList('+response.navigatepageNums[i]+', '+pageSize+')" href="#">'+response.navigatepageNums[i]+'</a>';
-            // id = pageNum1
-        }
-        if(response.hasNextPage){ // 다음 페이지가 있다면(true)
-            paginationHtml  += '<a onclick="getStudentsList('+(response.pageNum+1)+', '+pageSize+')" href="#">Next</a>';
-        }
-        $('.pagination').children().remove(); // 성형작업1
-        $('.pagination').append(paginationHtml);
+	        var paginationHtml = '';
+	        if(response.hasPreviousPage){ // 이전 페이지가 있다면(true)
+	            paginationHtml  += '<a onclick="getStudentsList('+(response.pageNum-1)+', '+pageSize+')" href="#">Previous</a>';
+	        }
+	        for(var i=0; i<response.navigatepageNums.length; i++){ // 페이지 번호 길이 만큼 for문 실행 / navigatepageNums : array
+	            paginationHtml += '<a id="pageNum'+response.navigatepageNums[i]+'" onclick="getStudentsList('+response.navigatepageNums[i]+', '+pageSize+')" href="#">'+response.navigatepageNums[i]+'</a>';
+	            // id = pageNum1
+	        }
+	        if(response.hasNextPage){ // 다음 페이지가 있다면(true)
+	            paginationHtml  += '<a onclick="getStudentsList('+(response.pageNum+1)+', '+pageSize+')" href="#">Next</a>';
+	        }
+	        $('.pagination').children().remove(); // 성형작업1
+	        $('.pagination').append(paginationHtml);
+	
+	        // 페이지 번호에 맞게 css 수정 
+	        // 성형작업 2-1
+	        $('#pageNum'+pageNum).css('backgroundColor','#287bff'); // 파라미터로 클릭한 페이지 번호를 받아오기 때문에 색상이 변경될 수 있음
+	        $('#pageNum'+pageNum).css('color','#fff')
+	
+	
+		    }else{
+		        html += '<tr><td colspan=3 style= "text-align: center;"> 게시글이 없습니다.</tr></td>'
+		    } 
+		    
+		    $('#boardData').children().remove();  // 성형작업1
+		    $('#boardData').append(html); // tbody에 json데이터 렌더링
+		    },
+		});
+		}   // end function
 
-        // 페이지 번호에 맞게 css 수정 
-        // 성형작업 2-1
-        $('#pageNum'+pageNum).css('backgroundColor','#287bff'); // 파라미터로 클릭한 페이지 번호를 받아오기 때문에 색상이 변경될 수 있음
-        $('#pageNum'+pageNum).css('color','#fff')
 
 
-    }else{
-        html += '<tr><td colspan=3 style= "text-align: center;"> 게시글이 없습니다.</tr></td>'
-    } 
-    
-    $('#boardData').children().remove();  // 성형작업1
-    $('#boardData').append(html); // tbody에 json데이터 렌더링
-    },
-});
-}   // end function
-
-
-
-    //학생 추가
-    $('.write-popup').click(function(){
+	    //학생 추가
+	    $('.write-popup').click(function(){
 
         if(confirm('학생을 추가하시겠습니까?')){
             
@@ -279,82 +280,78 @@ $.ajax({
         }
 
         $.ajax({ // 게시판 글 작성 데이터가 디비버에 insert
-        url : 'http://localhost:8080/api/v1/students/',
+        url : '/api/v1/students/',
         type : 'PATCH', // HTTP update 메소드 
         contentType : 'application/json', // 서버에 json타입으로 보낼 예정(요청)
         dataType : 'json', // 서버 결과를 json으로 응답받겠다
         data : JSON.stringify(jsonData),
         success : function(response){
             console.log(response)
-            if(response > 0){
-              $('.write-popup').css('display', 'none'); 
+            	if(response > 0){
+	              $('.write-popup').css('display', 'none'); 
+	
+	              $('#upt-id').val('');  
+	              $('#upt-name').val('');
+	              $('#upt-name').val('');
+	              $('#boardData').children().remove();  
+            	}
 
-              $('#upt-id').val('');  
-              $('#upt-name').val('');
-              $('#upt-name').val('');
-              $('#boardData').children().remove();  
             }
 
-            }
-
-        });
-    }
+         });
+       }
     })  
 
     
     
-    
-
-
-    
     // 학생 수정
-    $('#contentUpdate').click(function(){
-        var boardIdHidden = $('#boardIdHidden').val(); // hidden에 숨겨둔 boardId 가져오기
-        var studentsId = $('#studentsId').val();
-        var studentsName = $('#studentsName').val();
-        var studentsPassword = $('#studentsPassword').val();
+    	$('#contentUpdate').click(function(){
+	        var boardIdHidden = $('#boardIdHidden').val(); // hidden에 숨겨둔 boardId 가져오기
+	        var studentsId = $('#studentsId').val();
+	        var studentsName = $('#studentsName').val();
+	        var studentsPassword = $('#studentsPassword').val();
+	
+	        var jsonData = {
+	            studentsId : studentsId,
+	            studentsName : studentsName,
+	            studentsPassword : studentsPassword
+	        };
 
-        var jsonData = {
-            studentsId : studentsId,
-            studentsName : studentsName,
-            studentsPassword : studentsPassword
-        };
-
-      $.ajax({ 
-            url : '/api/v1/students/id/'+studentsId,
-            type : 'PATCH', 
-            contentType : 'application/json', // 서버에 json타입으로 보낼 예정(요청)
-            dataType : 'json', // 서버 결과를 json으로 응답받겠다
-            data : JSON.stringify(jsonData),
-            success : function(response){
-                if(response > 0){
-                    if(!confirm('수정 하시겠습니까?')){
-                        return false; 
-                    }
-                    alert('수정 완료');
-                    $('#boardData').children().remove();
-                    $('.update-popup').css('display', 'none'); // 게시물 상세 화면 감추기
-                    location.reload();
-                }
-            }
-        }); //ajax end 
-    });
+	      $.ajax({ 
+	            url : '/api/v1/students/id/'+studentsId,
+	            type : 'PATCH', 
+	            contentType : 'application/json', // 서버에 json타입으로 보낼 예정(요청)
+	            dataType : 'json', // 서버 결과를 json으로 응답받겠다
+	            data : JSON.stringify(jsonData),
+	            success : function(response){
+	                if(response > 0){
+	                    if(!confirm('수정 하시겠습니까?')){
+	                        return false; 
+	                    }
+	                    alert('수정 완료');
+	                    $('#boardData').children().remove();
+	                    $('.update-popup').css('display', 'none'); // 게시물 상세 화면 감추기
+	                    location.reload();
+	                }
+	            }
+	        }); //ajax end 
+	    });
 
 
-    $('#contentDelete').click(function(){
-        var studentsId = $('#studentsIdHidden').val(); 
-        if(confirm('게시물을 삭제하시겠습니까?')){
-            $.ajax({ 
+    	$('#contentDelete').click(function(){
+	        var studentsId = $('#studentsIdHidden').val(); 
+	        if(confirm('게시물을 삭제하시겠습니까?')){
+            	$.ajax({ 
                 url : '/api/v1/students/id/'+studentsId,
                 type : 'DELETE',
                 dataType : 'json', // 서버 결과를 json으로 응답받겠다
                 success : function(response){
-                if(response > 0){
-                    alert('삭제 완료!')
-                    $('#boardData').children().remove();
-                    getStudentsList(1,10);// delete or insert 할때 데이터가 변경됐으니 리스트를 새로 불러와야 한다.
-                    $('.update-popup').css('display', 'none'); // 게시물 상세 화면 감추기
-                    }
+	                if(response > 0){
+	                    alert('삭제 완료!')
+	                    $('#boardData').children().remove();
+	                    getStudentsList(1,10);// delete or insert 할때 데이터가 변경됐으니 리스트를 새로 불러와야 한다.
+	                    $('.update-popup').css('display', 'none'); // 게시물 상세 화면 감추기
+	                   }
                 }
             }); //end ajax
         }
@@ -362,45 +359,9 @@ $.ajax({
 
 
 
-    // 검색 페이징 
-    $('#searchBar').keyup(function(key){
-        //엔터를 누를때 hello world를 출력하고 싶음.
-        //13은 엔터를 의미
-        if(key.keyCode == 13){
-            //1. input 값을 가져옴.
-            var search = $('#searchBar').val();//input에 작성한 작성자를 가져옴
-            console.log(search)
-            //2. AJAX 호출
-            $.ajax({
-                url: '/api/v1/board/search?writer='+search,
-                type : 'GET',
-                dataType: 'json',
-                success: function (response) {
-                    var len =  response.length;
-                    var html = '';
-                    if(len > 0){
-                        for(var i=0; i<len; i++){ // 
-                    if(len > 0){         
-                        html += 
-                    '<tr onclick=getStudents('+response.list[i].studentsId+')><td>'  
-                        +response.list[i].studentsId+
-                        '</td><td>'
-                        +response.list[i].studentsName+
-                        '</td><td>'
-                        +response.list[i].createAt+
-                        '</td></tr>'
-                            }
-                       }// end for
-                    }else{
-                        //게시글 없음 로직 구현
-                        html += '<tr><td colspan=3 style="text-align: center;">게시글이 없습니다.</td></tr>';
-                    }
-                    $('#boardData').children().remove();
-                    $('#boardData').append(html);//tbody에 json데이터 렌더링
-                }
-            });
-        }
-    });
-
+ 
+    
+ 
+   
 </script>
 </html>
