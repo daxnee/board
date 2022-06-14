@@ -111,7 +111,7 @@
                 </label>
             </div>
             <div>
-                <a href="#" class="logout">Logout</a>
+                <a href="/logout" class="logout">Logout</a>
             </div>
         </div>
          <!-- table -->
