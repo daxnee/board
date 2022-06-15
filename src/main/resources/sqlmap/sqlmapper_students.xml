@@ -95,13 +95,15 @@
 
 	
 	<!-- 검색창으로 학생 검색 -->
-		<select id="studentsSearchList" resultType="map">
+		<select id="selectStudentsSearch" resultType="map">
 		SELECT
 			students_id AS studentsId,
 			students_name AS studentsName,
-			create_at AS createAt
-		FROM students
-		WHERE students_name LIKE CONCAT('%',#{studentsName},'%')
-		</select>
+			date_format(create_at, '%Y-%m-%d') AS createAt
+		FROM
+			students
+		WHERE
+			students_name LIKE CONCAT('%',#{studentsName},'%')
+	</select>
 
 </mapper>

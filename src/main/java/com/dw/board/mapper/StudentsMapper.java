@@ -82,7 +82,7 @@ public interface StudentsMapper {
 	public StudentsVO selectStudentsOne(StudentsVO vo);
 	
 	
-	public List<Map<String,Object>> studentsSearchList(@Param("studentsName") String studentsName);
+	public List<Map<String,Object>> selectStudentsSearch(String studentsName);
 	
 	
 	

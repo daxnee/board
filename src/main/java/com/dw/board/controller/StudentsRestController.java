@@ -120,10 +120,11 @@ public class StudentsRestController {
 		// 서치바에서 작성자 검색하기(쿼리스트링)
 		@CrossOrigin
 		@GetMapping("/students/search")
-		public PageInfo<Map<String,Object>> callStudentsList(@RequestParam("writer") String writer,
+		public PageInfo<Map<String,Object>> callStudentsList(
+				@RequestParam("studentsName") String studentsName,
 				@RequestParam("pageNum")int pageNum,
 				@RequestParam("pageSize")int pageSize){
-			List<Map<String, Object>> list = studentsService.getStudentsSearchList(pageNum,pageSize,writer);
+			List<Map<String, Object>> list = studentsService.getStudentsSearchList(pageNum,pageSize,studentsName);
 			return new PageInfo<Map<String,Object>>(list);
 		}
 		

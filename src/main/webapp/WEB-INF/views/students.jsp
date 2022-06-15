@@ -356,6 +356,19 @@
             }); //end ajax
         }
     }); // end
+    
+    
+	// students search
+    $('#searchBar').keyup(function(key){
+        var pageNum = 1;
+        var pageSize = 10;
+          if(key.keyCode == 13){
+     	     var writer = $('#searchBar').val().trim();
+           		if(writer != ''){
+            		location.href="/students/search?studentsName="+studentsName+"&pageNum="+pageNum+"&pageSize="+pageSize;
+            	}
+              }
+      	    })
 
 
 

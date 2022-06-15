@@ -53,6 +53,9 @@ public class BoardController {
 		PageInfo<Map<String, Object>> pageInfo = new PageInfo<Map<String, Object>>(list);
 		map.addAttribute("pageHelper", pageInfo);
 		
+		//에러 발생용 세션 호출
+//		int x = (int) session.getAttribute("x"); // 저장하지 않은 세션 불러오면 에러남 
+		
 		int studentsId = (int) session.getAttribute("studentsId");
 		map.addAttribute("studentsId", studentsId); 
 		

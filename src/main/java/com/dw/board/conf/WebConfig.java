@@ -23,8 +23,10 @@ public class WebConfig implements WebMvcConfigurer{
 				"/join",
 				"/api/v1/login",
 				"/resources/static/css/*",
-				"/resources/static/js/*" ); // "/resources/static/css/* : 설정된 경로를 인터셉트"
-		// 이 url은 가로채지 말라는 뜻임 (요청을 해도 안 나옴) excludePathPatterns 안에 적은 url은 console에 찍어도 ip,url,Method가 안나옴
+				"/resources/static/js/*",
+				"/resources/static/image/*",
+				"/error"); //resources/static/css/* : 설정된 경로를 인터셉트
+		// 이 url은 가로채지 말라는 뜻임 (요청을 해도 안 나옴) 여기에 적은 url은 console에 찍어도 ip,url,Method가 안나옴 (인터셉트 당함)
 	
 	}
 	

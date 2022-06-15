@@ -113,10 +113,10 @@ public class StudentsService {
 		//그러면 이미 body로 받은 값과 헤더에서 받은 값("{id}")은 VO클래스에 존재하여 MyBatis에서 쿼리를 계산할 수 있다.
 	}
 	
-	//검색창에 특정 학생 검색
-	public List<Map<String, Object>> getStudentsSearchList(int pageNum, int pageSize, String writer){
+	//검색창으로 학생 검색 
+	public List<Map<String, Object>> getStudentsSearchList(int pageNum, int pageSize, String studentsName){
 		PageHelper.startPage(pageNum, pageSize);
-		return studentsMapper.studentsSearchList(writer);
+		return studentsMapper.selectStudentsSearch(studentsName);
 	}
 	
 	

@@ -9,7 +9,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Join</title>
     <style>
       * {
         margin: 0;
@@ -71,6 +71,11 @@
       <input id="rePassword" type="password" />
       <label for="userName">이름</label>
       <input id="userName" type="text" />
+      
+      <label for="userAddr">주소</label>
+      <input id="userAddr" type="text" />
+       <button type="button" onclick="getPostCode()">도로명 주소</button>
+      
       <button type="button" onclick="join()">가입하기</button>
     </div>
     <script
@@ -78,6 +83,9 @@
       integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
       crossorigin="anonymous"
     ></script>
+    
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    
     <script>
       function join(){
         var password = $('#password').val();
@@ -116,6 +124,42 @@
           }
         });
       }
+    </script>
+    
+    <!-- 도로명주소 -->
+    <script type="text/javascript">
+    function getPostCode(){
+  	  new daum.Postcode({ // daumcdn dksdp 
+            oncomplete: function(data) { //oncomplete : enter 너가 주소를 입력했다면
+                // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
+                var extraRoadAddr = ''; // 도로명 조합형 주소 변수
+
+                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                    extraRoadAddr += data.bname;
+                }
+                // 건물명이 있고, 공동주택일 경우 추가한다.
+                if(data.buildingName !== '' && data.apartment === 'Y'){
+                    extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                if(extraRoadAddr !== ''){
+                    extraRoadAddr = ' (' + extraRoadAddr + ')';
+                }
+                // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
+                if(fullRoadAddr !== ''){
+                    fullRoadAddr += extraRoadAddr;
+                }
+                // 둘 중 하나를 선택해서 사용하면 된다
+                $("#userAddr").val(fullRoadAddr); //도로명 주소
+                //$("#userAddr").val(data.zonecode+', '+fullRoadAddr);  //우편번호 + 도로명 주소 
+            }
+        }).open();
+    }
+    
     </script>
   </body>
 </html>
