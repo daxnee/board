@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -18,6 +21,11 @@ import com.dw.board.vo.LogVO;
 
 @Component // 개발자(나)가 직접 작성한 class를 spring에게 Bean으로 등록하라는 뜻 
 public class Interceptor implements HandlerInterceptor{
+	
+	private static final Logger logger = LoggerFactory.getLogger(Interceptor.class);
+	
+		
+		
 	// IoC
 	@Autowired  // == new로 객체생성을 대신해줌
 	private LogsService logsService; 
@@ -29,16 +37,20 @@ public class Interceptor implements HandlerInterceptor{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
-		String url = request.getRequestURI();
 		String ip = request.getHeader("x-forwarded-For"); // 클라이언트의 ip를 수집할 수 있다.
+		String url = request.getRequestURI();
 		String httpMethod = request.getMethod();
 		
 		if(ip == null) {
 			ip = request.getRemoteAddr();
 		}
-		System.out.println("접속한 IP는 ====> " + ip);
-		System.out.println("요청받은 url ====> " + url);
-		System.out.println("HTTP Method ====> " + httpMethod);
+		
+		logger.info("Client IP : " + ip); // syso로 출력하지 않음. info 
+		logger.info("request url : " + url);
+		logger.info("request HTTP Method : " + httpMethod);
+		
+		
+		
 		
 		SimpleDateFormat formatter = 
 					new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA); // 서버시간을 강제로 한국시각으로 맞춤
@@ -59,9 +71,10 @@ public class Interceptor implements HandlerInterceptor{
 		//세션 체크
 		HttpSession session = request.getSession();
 		if(session.getAttribute("studentsId") == null) { // 세션에 값이 없으면 /login 경로로 들어가라
-			response.sendRedirect("/login"); //내 파트 아니니 login으로 넘어가
+			logger.info("session studentsId: " + session.getAttribute("studentsId"));
+			response.sendRedirect("/login"); //sendRedirect : 내 파트 아니니 login 페이지로 넘어가줘
+			return false;
 		}
-		
 		return true;
 	}
 
