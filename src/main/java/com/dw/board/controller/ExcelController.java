@@ -35,7 +35,7 @@ public class ExcelController {
         response.setHeader("Content-Disposition", "attachment;filename="+ URLEncoder.encode(today+"_"+title,"UTF-8")+".xls"); // 엑셀 파일
         Workbook workBook = excelService.makeExcelForm();
         workBook.write(response.getOutputStream());
-        workBook.close();
+        workBook.close();	
         
         response.getOutputStream().flush();
         response.getOutputStream().close();
