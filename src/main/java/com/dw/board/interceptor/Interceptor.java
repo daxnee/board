@@ -32,9 +32,9 @@ public class Interceptor implements HandlerInterceptor{
 	
 	// 메소드 자동 생성 기능 : Source -> Override/implements 메소드
 	
-	// preHandle : 컨트롤러에 도착하기 전에 요청을 가로채는 함수
+
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) 	// preHandle : 컨트롤러에 도착하기 전에 요청을 가로채는 함수
 			throws Exception {
 		
 		String ip = request.getHeader("x-forwarded-For"); // 클라이언트의 ip를 수집할 수 있다.
