@@ -100,6 +100,7 @@
             <div class="search">
                 <label>
                     <input id="searchBar" type="text" placeholder="작성자를 검색하세요..." >
+                      <!-- 유의 사항 : 새로고침 하기 전까지 value에 값이 들어가 있음. -->
                     <input id="keyword" type="hidden" value="null">
                 </label>
             </div>
