@@ -17,13 +17,13 @@
         <div class="write-popup">
             <div class="editor">
                 <div class="input-box">
-                <input id="studentsId" type="hidden" value="${studentsId}">
+                <input id="studentsId" type="hidden" value="${studentsMap.studentsId}">
                     <label for="studentsName">작성자 : </label>
                     <input id="studentsName" type="text" value="현상원" readonly>
                 </div>
                 <div class="input-box">
                     <label for="title">제목 : </label>
-                    <input id="title" type="text" placeholder="제목을 입력하세요...">
+                    <input id="title" type="text" placeholder="${studentsMap.studentsName}">
                 </div>
                 <div class="input-box">
                     <textarea id="content" rows="10" cols="65" placeholder="내용을 간단히 적어주세요..."></textarea>
@@ -69,13 +69,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/students">
+                    <a href="/students?pageNum=1&pageSize=5">
                         <span class="icon"><ion-icon name="person-outline"></ion-icon></span>
                         <span class="title" onclick= "goPage('Students')">Students</span>                
                     </a>
                 </li>
                 <li>
-                    <a href="/logs">
+                    <a href="/logs?pageNum=1&pageSize=50">
                         <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
                         <span class="title" onclick= "goPage('logs')">logs</span>                
                     </a>
@@ -196,14 +196,15 @@
                  </table>
                  <div class="pagination">
                  	<c:if test="${pageHelper.hasPreviousPage}">
-                 		<a onclick="getBoardList(${pageHelper.pageNum-1},10)">Previous</a>
-                 	</c:if>
-                 	<c:forEach begin="${pageHelper.navigateFirstPage}" end="${pageHelper.navigateLastPage}" var="pageNum">
-						<a id="pageNum${pageNum}" onclick="getBoardList(${pageNum},10)">${pageNum}</a>  	
-                 	</c:forEach>
-                 	<c:if test="${pageHelper.hasNextPage}">
-                 		<a onclick="getBoardList(${pageHelper.pageNum+1},10)">Next</a>
-                 	</c:if>
+                 	<a onclick="getBoardList(${pageHelper.pageNum-1},10)" href="#">Previous</a>
+                 </c:if>
+				 <c:forEach items="${pageHelper.navigatepageNums}" var="pageNum">
+				 	<a id="pageNum${pageNum}" onclick="getBoardList(${pageNum},5)">
+				 	${pageNum}</a>
+				 </c:forEach>
+				 <c:if test="${pageHelper.hasNextPage}">
+                 	<a onclick="getBoardList(${pageHelper.pageNum+1},10)" href="#">Next</a>
+                 </c:if>
                  </div>
                  <input id="nowPageNum" type="hidden" value="${pageHelper.pageNum}">
              </div>

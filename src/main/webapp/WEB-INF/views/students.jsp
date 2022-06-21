@@ -169,6 +169,15 @@
       crossorigin="anonymous"
     ></script>
 <script>
+    $('.btn').click(function(){
+        $('.write-popup').css('display', 'block');
+    });
+    $('.btn-cancel').click(function(){
+        $('.write-popup').css('display', 'none');
+    });
+    $('.btn-close').click(function(){
+        $('.update-popup').css('display','none');
+    })
     let list = document.querySelectorAll('.navigation li');
     function activeLink(){
         list.forEach((item) => {item.classList.remove('hovered')});
@@ -258,49 +267,44 @@
 
 
 	    //학생 추가
-	    $('.write-popup').click(function(){
-
-        if(confirm('학생을 추가하시겠습니까?')){
-            
-        $('.write-popup').css('display', 'block');
-        // upt-id upt-name upt-password
-        var studentsId = $('#boardIdHidden').val();
-        var studentsName =  $('#upt-name').val();
-        var studentsPassword = $('#upt-name').val();
-
-        //빈칸 확인
-        if(studentsName == ''){
-            alert('제목을 입력해주세요!');
-            return false;
+	    $(".btn-insert").click(function () {
+      var studentsName = $("#insertStudentsName").val();
+      var studentsPassword = $("#insertStudentsPassword").val();
+      var jsonData = {
+        studentsName: studentsName,
+        studentsPassword: studentsPassword,
+      };
+      if (studentsName == "" || studentsPassword == "") {
+        alert("학생 정보를 입력해주세요!");
+        if (studentsName == "") {
+          $("#insertStudentsName").focus();
+        } else {
+          $("#insertStudentsPassword").focus();
         }
-        
-        if(studentsPassword == ''){
-            alert('내용을 입력해주세요!');
-            return false;
-        }
-
-        $.ajax({ // 게시판 글 작성 데이터가 디비버에 insert
-        url : '/api/v1/students/',
-        type : 'PATCH', // HTTP update 메소드 
-        contentType : 'application/json', // 서버에 json타입으로 보낼 예정(요청)
-        dataType : 'json', // 서버 결과를 json으로 응답받겠다
-        data : JSON.stringify(jsonData),
-        success : function(response){
-            console.log(response)
-            	if(response > 0){
-	              $('.write-popup').css('display', 'none'); 
-	
-	              $('#upt-id').val('');  
-	              $('#upt-name').val('');
-	              $('#upt-name').val('');
-	              $('#boardData').children().remove();  
-            	}
-
+        return false;
+      }
+      if (confirm("학생을 추가 하시겠습니까?")) {
+        $.ajax({
+          url: "/api/v1/students",
+          type: "POST",
+          contentType: "application/json", //서버에 json타입으로 보낼 예정(요청).
+          dataType: "json", //서버결과를 json으로 응답받겠다.
+          data: JSON.stringify(jsonData),
+          success: function (response) {
+            if (response > 0) {
+              alert("학생이 추가 되었습니다.");
+              $("#insertStudentsName").val("");
+              $("#insertStudentsPassword").val("");
+              $(".insert-popup").css("display", "none");
+              location.reload();
             }
-
-         });
-       }
-    })  
+          },
+          error: function (request, statis, error) {
+            console.log(error);
+          },
+        });
+      }
+    });
 
     
     
@@ -338,24 +342,23 @@
 	    });
 
 
-    	$('#contentDelete').click(function(){
-	        var studentsId = $('#studentsIdHidden').val(); 
-	        if(confirm('게시물을 삭제하시겠습니까?')){
-            	$.ajax({ 
-                url : '/api/v1/students/id/'+studentsId,
-                type : 'DELETE',
-                dataType : 'json', // 서버 결과를 json으로 응답받겠다
+    	// 학생 삭제
+    	 $("#contentDelete").click(function(){
+        var studentsId = $("#studentsIdHidden").val();
+        if(confirm("학생이 작성한 게시글은 DB에 남아있습니다.\n삭제하시겠습니까?")){ // \n : 줄바꿈
+            $.ajax({
+                url : "/api/v1/students/id/" + studentsId,
+                type : "DELETE",
+                dataType : "json",
                 success : function(response){
-	                if(response > 0){
-	                    alert('삭제 완료!')
-	                    $('#boardData').children().remove();
-	                    getStudentsList(1,10);// delete or insert 할때 데이터가 변경됐으니 리스트를 새로 불러와야 한다.
-	                    $('.update-popup').css('display', 'none'); // 게시물 상세 화면 감추기
-	                   }
-                }
-            }); //end ajax
+                    alert('삭제 완료');
+                    $('.update-popup').css('display','none');
+                    $("#boardData").children().remove();
+                    location.reload();
+                },
+            });
         }
-    }); // end
+    }); //end function
     
     
 	// students search

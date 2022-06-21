@@ -103,7 +103,7 @@ public class StudentsRestController {
 		}
 		
 		
-	// 특정 학생 delete
+	// 특정 학생 delete(삭제)
 		@CrossOrigin 
 		@DeleteMapping("/students/id/{id}")
 		public int callRemoveStudents(@PathVariable("id") int studentsId) {
