@@ -16,11 +16,12 @@
 	 
 	 <select id="selectAllStudentsList" resultType = "StudentsVO">
 	 	SELECT 
-	 		students_id AS studentsId, <!-- 이렇게 해야 리저트 타입과 맞게 매핑이됨 -->
+	 		students_id AS studentsId, <!-- as로 변수이름과 동일하게 해야 mapping이 된다.(VO클래스의 변수이름과 동일해야 MyBatis에서 자동으로 set이 됨.) -->
 	 		students_name AS studentsName,
 	 		students_password AS studentsPassword,
 	 		date_format(create_at, '%Y-%m-%d') AS createAt
-	 	FROM students 
+	 	FROM students
+	 	ORDER BY studentsId ASC
 	 </select>
 	 
 	 <!-- 검색창으로 학생 검색 -->

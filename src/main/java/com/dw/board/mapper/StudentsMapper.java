@@ -19,13 +19,17 @@ public interface StudentsMapper {
 	 * comment : 학생 저장
 	 */
 	public int insertStudents(StudentsVO vo);
+	
+	
 	/**
 	 * @return
 	 * @author : Daeun Yang
-	 * @date : 2022. 5. 18.
+	 * @date : 2022. 6. 25.
 	 * comment : list로 학생 조회
 	 */
 	public List<StudentsVO> selectAllStudentsList();
+	
+	
 	
 	/**
 	 * @return
