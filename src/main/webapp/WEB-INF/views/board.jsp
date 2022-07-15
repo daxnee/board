@@ -19,7 +19,7 @@
                 <div class="input-box">
                 <input id="studentsId" type="hidden" value="${studentsMap.studentsId}">
                     <label for="studentsName">작성자 : </label>
-                    <input id="studentsName" type="text" value="현상원" readonly>
+                    <input id="studentsName" type="text" value="" readonly>
                 </div>
                 <div class="input-box">
                     <label for="title">제목 : </label>
