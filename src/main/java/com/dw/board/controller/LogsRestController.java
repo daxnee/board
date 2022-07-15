@@ -32,7 +32,7 @@ public class LogsRestController {
 		return new PageInfo<Map<String, Object>>(list);
 	}
 	
-	@CrossOrigin
+	@CrossOrigin 
 	@GetMapping("/logs/logId/{logId}")
 	public Map<String, Object> callLogs(@PathVariable("logId") int logId) {
 		return logsService.getLogs(logId);
