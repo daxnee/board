@@ -162,7 +162,7 @@
         $('.logs-popup').css('display', 'block');
         
         $.ajax({
-        url : 'http://localhost:8080/api/v1/logs/logId/'+logId,
+        url : '/api/v1/logs/logId/'+logId,
         type : 'GET',
         dataType : 'json', 
         success : function(response){
@@ -206,7 +206,7 @@ getBoardList(1, 10); // 함수 호출 (없으면 결과 안 뜸)
 
     function getBoardList(pageNum, pageSize){
     $.ajax({
-        url : 'http://localhost:8080/api/v1/logs?pageNum='+pageNum+'&pageSize='+pageSize,
+        url : '/api/v1/logs?pageNum='+pageNum+'&pageSize='+pageSize,
         type : 'GET',
         dataType : 'json',
         success : function(response){ 

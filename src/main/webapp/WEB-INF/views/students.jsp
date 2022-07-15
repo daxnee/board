@@ -360,7 +360,6 @@
         }
     }); //end function
     
-    
 	// students search
     $('#searchBar').keyup(function(key){
         var pageNum = 1;
@@ -373,11 +372,5 @@
               }
       	    })
 
-
-
- 
-    
- 
-   
 </script>
 </html>
